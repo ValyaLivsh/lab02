@@ -290,19 +290,53 @@ $ git branch -d patch1
 
 **Note:** *Работать продолжайте с теми же репоззиториями, что и в первой части задания.*
 1. Создайте новую локальную ветку `patch2`.
-
+```
+$ git branch patch2
+$ git checkout patch2
+```
 2. Добавление изменений в ветке patch1 по исправлению кода и избавления от using namespace std;.
-
+```
+$ clang-format -style=Mozilla hello_world.cpp
+```
 3. **commit**, **push**, создайте pull-request `patch2 -> master`.
-
+```
+$ git add .
+$ git commit -m "use clang-format"
+$ git push origin patch2
+```
 4. В ветке **master** в удаленном репозитории измените комментарии, например, расставьте знаки препинания, переведите комментарии на другой язык.
+```
+$ git checkout main
+```
 5. Убедитесь, что в pull-request появились *конфликтны*.
 6. Для этого локально выполните **pull** + **rebase** (точную последовательность команд, следует узнать самостоятельно). **Исправьте конфликты**.
+```
+$ git pull
+$ git checkout patch2
+$ git rebase main
+Автослияние hello_world.cpp
+КОНФЛИКТ (содержимое): Конфликт слияния в hello_world.cpp
+error: не удалось применить коммит d50808c... use clang-format
+Не удалось применить коммит d50808c... use clang-format
 
+$ git add .
+$ git status
+интерактивное перемещение в процессе; над 15c337a
+Last command done (1 command done):
+   pick d50808c use clang-format
+Команд больше не осталось.
+Вы сейчас редактируете коммит при перемещении ветки  «patch2» над «15c337a».
+  (используйте «git commit --amend», чтобы исправить текущий коммит)
+  (используйте «git rebase --continue», когда будете довольны изменениями)
+
+$ git commit -m "final commit"
+$ git rebase --continue
+Успешно перемещён и обновлён refs/heads/patch2.
+```
 7. Сделайте *force push* в ветку `patch2`
-8. Убедитель, что в pull-request пропали конфликтны. 
-
-9. Вмержите pull-request `patch2 -> master`.
+```
+$ git push -f origin patch2
+```
 
 ## Links
 
